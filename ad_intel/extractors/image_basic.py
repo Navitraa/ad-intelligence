@@ -61,4 +61,17 @@ def extract_image_features(path: Path) -> dict:
     except Exception:
         pass
 
+    # Optional company name extraction from top-left region
+    try:
+        from .company_name_ocr import get_company_name_features
+        company_features = get_company_name_features(arr)
+        feats.update(company_features)
+    except Exception:
+        # If OCR not available, add empty fields
+        feats.update({
+            'company_name': '',
+            'has_company_name': False,
+            'company_name_length': 0
+        })
+
     return feats

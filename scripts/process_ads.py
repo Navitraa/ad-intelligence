@@ -11,7 +11,8 @@ from tqdm import tqdm
 from ad_intel.pipeline import process_paths_parallel, detect_media_type
 
 
-def extract_zip(zip_path: Path, dest_dir: Path) -> Path:\n    dest_dir.mkdir(parents=True, exist_ok=True)
+def extract_zip(zip_path: Path, dest_dir: Path) -> Path:
+    dest_dir.mkdir(parents=True, exist_ok=True)
     with zipfile.ZipFile(zip_path, 'r') as zf:
         zf.extractall(dest_dir)
     return dest_dir
