@@ -18,24 +18,33 @@ def extract_zip(zip_path: Path, dest_dir: Path) -> Path:
     return dest_dir
 
 
-def find_media_paths(input_path: Path) -> list[Path]:
-    exts = {'.png', '.jpg', '.jpeg', '.mp4'}
-    if input_path.is_file():
-        if input_path.suffix.lower() == '.zip':
-            tmp = input_path.parent / (input_path.stem + "_extracted")
-            extracted = extract_zip(input_path, tmp)
-            search_root = extracted
-        else:
-            return [input_path]
-    else:
-        search_root = input_path
-
+def find_image_paths() -> list[Path]:
+    """Find all image files in the images directory."""
+    images_dir = Path("/Users/navitraa/ad-intelligence/inputs/images")
+    image_exts = {'.png', '.jpg', '.jpeg'}
+    
     paths = []
-    for root, _, files in os.walk(search_root):
-        for f in files:
-            p = Path(root) / f
-            if p.suffix.lower() in exts:
-                paths.append(p)
+    if images_dir.exists():
+        for root, _, files in os.walk(images_dir):
+            for f in files:
+                p = Path(root) / f
+                if p.suffix.lower() in image_exts:
+                    paths.append(p)
+    return sorted(paths)
+
+
+def find_video_paths() -> list[Path]:
+    """Find all video files in the videos directory."""
+    videos_dir = Path("/Users/navitraa/ad-intelligence/inputs/videos")
+    video_exts = {'.mp4', '.avi', '.mov', '.mkv'}
+    
+    paths = []
+    if videos_dir.exists():
+        for root, _, files in os.walk(videos_dir):
+            for f in files:
+                p = Path(root) / f
+                if p.suffix.lower() in video_exts:
+                    paths.append(p)
     return sorted(paths)
 
 
@@ -49,17 +58,30 @@ def main():
     parser.add_argument('--max-frames', type=int, default=120, help='Max frames to sample per video')
     args = parser.parse_args()
 
-    media_paths = find_media_paths(args.input)
-    if not media_paths:
-        print("No media found.")
+    # Get image and video paths from separate directories
+    image_paths = find_image_paths()
+    video_paths = find_video_paths()
+    
+    if not image_paths and not video_paths:
+        print("No media found in images or videos directories.")
         sys.exit(1)
 
     items = []
-    for p in media_paths:
+    
+    # Add image files
+    for p in image_paths:
         items.append({
             'id': p.stem,
             'path': str(p),
-            'media_type': detect_media_type(p.suffix.lower())
+            'media_type': 'image'
+        })
+    
+    # Add video files
+    for p in video_paths:
+        items.append({
+            'id': p.stem,
+            'path': str(p),
+            'media_type': 'video'
         })
 
     results = process_paths_parallel(

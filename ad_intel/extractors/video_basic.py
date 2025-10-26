@@ -127,4 +127,17 @@ def extract_video_features(path: Path, frame_interval: float, max_frames: int) -
     except Exception:
         pass
 
+    # Audio transcript features (placeholder for future implementation)
+    feats.update({
+        'transcript': '',
+        'has_speech': False,
+        'word_count': 0,
+        'sentence_count': 0,
+        'avg_words_per_sentence': 0.0,
+        'transcript_length': 0,
+        'ad_keyword_count': 0,
+        'ad_keyword_density': 0.0,
+        'has_call_to_action': False,
+    })
+
     return feats
