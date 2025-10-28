@@ -72,7 +72,7 @@ def transcribe_video(video_path):
     }
 
 # Test the correct file upload syntax
-client = genai.Client(api_key="AIzaSyDQUqGULAZUdWB3CNyiKYwyafB83o0K9uU")
+client = genai.Client(api_key="NIL")
 
 # Individual upload
 # video_path = f"/Users/navitraa/ad-intelligence/inputs/videos/v0001.mp4"
