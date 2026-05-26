@@ -2,6 +2,8 @@
 
 A fast, modular pipeline to extract high-value, minimally overlapping signals from ad creatives (images and videos). Includes a CLI, parallel processing, and graceful fallbacks for optional models.
 
+[![View Slide Deck](slides/title-slide.jpg)](slides/ad-intelligence.pdf)
+
 ## Highlights
 - Processes images (.png, .jpg, .jpeg) and videos (.mp4)
 - Parallelizable via multiprocessing
